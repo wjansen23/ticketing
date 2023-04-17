@@ -1,5 +1,5 @@
 # Name of the workflow
-name: tests
+name: tests-auth
 
 # When to run this workflow
 on:
