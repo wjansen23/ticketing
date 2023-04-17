@@ -1,0 +1,18 @@
+# Name of the workflow
+name: tests-auth
+
+# When to run this workflow
+on:
+  pull_request
+
+# Things to do whenever a pull request is create, updated or reopened
+#   Start up a virtual machine  (Container) and run Uduntu
+#   Take all the code out of the project (Uses step)
+#   Then run a series of commands
+#     1. Run all tests for Auth service
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - run: cd auth && npm install && npm run test:ci
