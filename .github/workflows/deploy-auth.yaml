@@ -1,0 +1,28 @@
+#Action name
+name: deploy-auth
+
+# when should this be executed. Whenever there is a push and there are changes in the auth directory
+on:
+  push:
+    branches:
+      - master
+    paths:
+      - 'auth/**'
+
+# Things to do whenever a push request is executed
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2 #Checkout code
+      - run: cd auth && docker build -t wjansen23/auth .
+      - run: docker login -u $DOCKER_USERNAME --password-stdin $DOCKER_PASSWORD
+        env:
+          DOCKER_USERNAME: ${{secrets.DOCKER_USERNAME}}
+          DOCKER_PASSWORD: ${{secrets.DOCKER_PASSWORD}}
+      - run: docker push wjansen23/auth
+      - uses: digitalocean/action-doctl@v2
+        with:
+          token: ${{DIGITALOCEAN_ACCESS_TOKEN}}
+      - run: doctl kubernetes cluster kubeconfig save ticketing
+      - run: kubectl rollout restart deployment auth-depl
