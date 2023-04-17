@@ -3,6 +3,7 @@ import { OrderCreatedListener } from './events/listeners/order-created-listener'
 
 const start = async () =>{
     //Check env variables
+    console.log("Starting up expiration service....");
     if (!process.env.NATS_CLIENT_ID){
         throw new Error('NATS_CLIENT_ID must be defined.')
     }

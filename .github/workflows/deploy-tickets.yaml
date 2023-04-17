@@ -1,0 +1,28 @@
+#Action name
+name: deploy-tickets
+
+# when should this be executed. Whenever there is a push and there are changes in the tickets directory
+on:
+  push:
+    branches:
+      - master
+    paths:
+      - 'tickets/**'
+
+# Things to do whenever a push request is executed
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2 #Checkout code
+      - run: docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
+        env:
+          DOCKER_USERNAME: ${{secrets.DOCKER_USERNAME}}
+          DOCKER_PASSWORD: ${{secrets.DOCKER_PASSWORD}}
+      - run: cd tickets && docker build -t wjansen23/tickets .
+      - run: docker push wjansen23/tickets
+      - uses: digitalocean/action-doctl@v2
+        with:
+          token: ${{secrets.DIGITALOCEAN_ACCESS_TOKEN}}
+      - run: doctl kubernetes cluster kubeconfig save ticketing
+      - run: kubectl rollout restart deployment tickets-depl
