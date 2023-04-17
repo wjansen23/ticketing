@@ -1,4 +1,4 @@
-#Action name
+#Action name for file
 name: deploy-manifest
 
 # when should this be executed. Whenever there is a push and there are changes in the auth directory
