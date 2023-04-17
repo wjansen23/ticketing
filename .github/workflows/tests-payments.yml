@@ -1,9 +1,11 @@
 # Name of the workflow
 name: tests-payments
 
-# When to run this workflow
+# When to run this workflow. Pull requests and  for only changes in the payments directory
 on:
-  pull_request
+  pull_request:
+    paths:
+      - 'payments/**'
 
 # Things to do whenever a pull request is create, updated or reopened
 #   Start up a virtual machine  (Container) and run Uduntu
