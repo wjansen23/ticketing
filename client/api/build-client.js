@@ -5,7 +5,7 @@ import axios from 'axios';
         //on server
 
         return axios.create({
-            baseURL: 'http://ingress-nginx-controller.ingress-nginx.svc.cluster.local',
+            baseURL: 'http://www.ticketing-app-prod-wj23.xyz',
             headers: req.headers
         });
     } else {
