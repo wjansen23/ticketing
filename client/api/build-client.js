@@ -11,7 +11,7 @@ import axios from 'axios';
     } else {
         //on browser
         return axios.create({
-            baseURL: '/'
+            baseUrl: '/'
         });
     }
 }
